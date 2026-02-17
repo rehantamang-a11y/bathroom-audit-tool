@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bathroom Safety Audit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand:       #cc0000;
+            --brand-dark:  #a30000;
+            --brand-light: #fff0f0;
+            --brand-mid:   #ffd6d6;
+            --bg:          #F6F4F2;
+            --surface:     #ffffff;
+            --border:      #e8e4e0;
+            --text-primary:   #1a1a1a;
+            --text-secondary: #6b6560;
+            --text-muted:     #9e9894;
+            --success:     #2e7d32;
+            --warning:     #c17d00;
+            --radius-sm:   6px;
+            --radius:      10px;
+            --radius-lg:   14px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 24px 16px 60px;
+            color: var(--text-primary);
+        }
+
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        /* ─── Header ─── */
+        .header {
+            background: var(--brand);
+            color: white;
+            padding: 32px 30px 28px;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 6px;
+        }
+
+        .header-icon {
+            width: 42px; height: 42px;
+            background: rgba(255,255,255,0.18);
+            border-radius: var(--radius);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .header-sub {
+            font-size: 13px;
+            opacity: 0.78;
+            margin-left: 56px;
+        }
+
+        .progress-wrap {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            background: rgba(255,255,255,0.25);
+            height: 5px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: white;
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .progress-label {
+            font-size: 12px;
+            font-weight: 600;
+            opacity: 0.85;
+            white-space: nowrap;
+        }
+
+        /* ─── Meta bar ─── */
+        .meta-bar {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-top: none;
+            padding: 16px 20px;
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .meta-field { flex: 1; min-width: 180px; }
+
+        .meta-field label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+
+        .meta-field input {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 8px 10px;
+            font-family: inherit;
+            font-size: 13px;
+            background: var(--bg);
+            color: var(--text-primary);
+        }
+
+        .meta-field input:focus {
+            outline: none;
+            border-color: var(--brand);
+        }
+
+        /* ─── Content ─── */
+        .content {
+            padding: 16px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* ─── Section card ─── */
+        .section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: box-shadow 0.2s;
+        }
+
+        .section.expanded {
+            box-shadow: 0 4px 20px rgba(204,0,0,0.08);
+            border-color: var(--brand-mid);
+        }
+
+        .section-header {
+            padding: 16px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            gap: 12px;
+        }
+
+        .section-header:hover { background: #fafaf9; }
+
+        .section-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .section-number {
+            background: var(--brand);
+            color: white;
+            width: 28px; height: 28px;
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 15px;
+            white-space: nowrap;
+        }
+
+        .section-badge {
+            font-size: 11px;
+            font-weight: 500;
+            padding: 3px 8px;
+            border-radius: 20px;
+            background: var(--bg);
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .section.expanded .section-badge {
+            background: var(--brand-light);
+            color: var(--brand);
+        }
+
+        .expand-icon {
+            color: var(--text-muted);
+            font-size: 11px;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .section.expanded .expand-icon { transform: rotate(180deg); }
+
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+        }
+
+        .section.expanded .section-content { max-height: 9999px; }
+
+        /* ─── Hint ─── */
+        .section-hint {
+            background: var(--brand-light);
+            border-top: 1px solid var(--brand-mid);
+            padding: 10px 20px;
+            font-size: 12px;
+            color: var(--brand-dark);
+        }
+
+        /* ─── Body ─── */
+        .section-body {
+            padding: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ─── Fields ─── */
+        .field-group { margin-bottom: 16px; }
+
+        .field-label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 7px;
+            font-size: 13px;
+        }
+
+        .field-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 13.5px;
+            font-family: inherit;
+            color: var(--text-primary);
+            background: var(--surface);
+            transition: border-color 0.18s, box-shadow 0.18s;
+            appearance: none;
+        }
+
+        .field-input:focus {
+            outline: none;
+            border-color: var(--brand);
+            box-shadow: 0 0 0 3px rgba(204,0,0,0.09);
+        }
+
+        textarea.field-input {
+            resize: vertical;
+            min-height: 78px;
+            line-height: 1.5;
+        }
+
+        select.field-input {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6560' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
+            cursor: pointer;
+        }
+
+        .field-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .field-grid-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        /* ─── Radio / checkbox ─── */
+        .radio-group, .check-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .radio-label, .check-label {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 13px;
+            cursor: pointer;
+            padding: 8px 13px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--surface);
+            transition: all 0.15s;
+            user-select: none;
+        }
+
+        .radio-label:hover, .check-label:hover {
+            border-color: var(--brand);
+            background: var(--brand-light);
+        }
+
+        .radio-label input, .check-label input { accent-color: var(--brand); }
+
+        /* ─── Sub headings ─── */
+        .sub-section-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            color: var(--brand);
+            border-bottom: 1.5px solid var(--brand-mid);
+            padding-bottom: 6px;
+            margin: 22px 0 14px;
+        }
+
+        .sub-section-title:first-child { margin-top: 0; }
+
+        /* ─── User cards ─── */
+        .user-card {
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .user-card-header {
+            background: var(--bg);
+            padding: 11px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .user-card-title {
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .user-avatar {
+            width: 26px; height: 26px;
+            background: var(--brand);
+            color: white;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .user-card-body { padding: 16px; }
+
+        .remove-user-btn {
+            background: none;
+            border: 1px solid #fca5a5;
+            color: #dc2626;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .remove-user-btn:hover { background: #fef2f2; }
+
+        .add-user-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--brand-light);
+            color: var(--brand);
+            border: 1.5px dashed var(--brand-mid);
+            border-radius: var(--radius);
+            font-size: 13.5px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.18s;
+            margin-top: 4px;
+        }
+
+        .add-user-btn:hover {
+            background: var(--brand-mid);
+            border-color: var(--brand);
+        }
+
+        /* ─── Comments ─── */
+        .section-comments {
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 1px dashed var(--border);
+        }
+
+        .comment-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        textarea.comment-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-family: inherit;
+            color: var(--text-primary);
+            resize: vertical;
+            min-height: 68px;
+            background: #fdfcfb;
+            transition: border-color 0.18s;
+            line-height: 1.5;
+        }
+
+        textarea.comment-input:focus {
+            outline: none;
+            border-color: var(--brand);
+            box-shadow: 0 0 0 3px rgba(204,0,0,0.08);
+        }
+
+        /* ─── Photo upload ─── */
+        .photo-upload {
+            margin-top: 18px;
+            padding: 18px;
+            border: 2px dashed var(--border);
+            border-radius: var(--radius);
+            text-align: center;
+            background: #fdfcfb;
+        }
+
+        .photo-upload:hover { border-color: var(--brand-mid); }
+        .photo-upload input[type="file"] { display: none; }
+
+        .upload-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 18px;
+            background: var(--brand);
+            color: white;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background 0.18s;
+        }
+
+        .upload-btn:hover { background: var(--brand-dark); }
+
+        .upload-hint {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            margin-top: 7px;
+        }
+
+        .photo-preview {
+            margin-top: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .photo-item {
+            position: relative;
+            width: 84px; height: 84px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 2px solid var(--border);
+        }
+
+        .photo-item img { width: 100%; height: 100%; object-fit: cover; }
+
+        .photo-remove {
+            position: absolute;
+            top: 3px; right: 3px;
+            background: rgba(204,0,0,0.85);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px; height: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* ─── Actions ─── */
+        .actions {
+            display: flex;
+            gap: 12px;
+            padding: 18px 20px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+        }
+
+        .btn {
+            flex: 1;
+            padding: 13px;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 14px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.18s;
+        }
+
+        .btn-primary {
+            background: var(--brand);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--brand-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(204,0,0,0.35);
+        }
+
+        .btn-secondary {
+            background: var(--surface);
+            color: var(--brand);
+            border: 1.5px solid var(--brand-mid);
+        }
+
+        .btn-secondary:hover {
+            background: var(--brand-light);
+            border-color: var(--brand);
+        }
+
+        /* ─── Toast ─── */
+        .toast {
+            position: fixed;
+            bottom: 28px; right: 24px;
+            background: #1a1a1a;
+            color: white;
+            padding: 12px 20px;
+            border-radius: var(--radius);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+            font-size: 13.5px;
+            font-weight: 500;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show { transform: translateY(0); opacity: 1; }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 560px) {
+            body { padding: 0 0 60px; }
+            .header { border-radius: 0; }
+            .section { border-radius: 8px; }
+            .actions { border-radius: 0; flex-direction: column; }
+            .field-grid { grid-template-columns: 1fr; }
+            .section-badge { display: none; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- ══════════ HEADER ══════════ -->
+    <div class="header">
+        <div class="header-top">
+            <div class="header-icon">🛁</div>
+            <h1>Bathroom Safety Audit</h1>
+        </div>
+        <p class="header-sub">Complete all sections with observations and photos where relevant</p>
+        <div class="progress-wrap">
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            <span class="progress-label" id="progressLabel">0 / 8 sections opened</span>
+        </div>
+    </div>
+
+    <!-- ══════════ AUDIT META ══════════ -->
+    <div class="meta-bar">
+        <div class="meta-field">
+            <label>Auditor Name</label>
+            <input type="text" id="meta-auditor" placeholder="Your name">
+        </div>
+        <div class="meta-field">
+            <label>Audit Date</label>
+            <input type="date" id="meta-date">
+        </div>
+        <div class="meta-field">
+            <label>Location / Address</label>
+            <input type="text" id="meta-location" placeholder="Property address">
+        </div>
+    </div>
+
+    <div class="content" id="formContent">
+
+        <!-- ━━━━━━ 1: PHYSICAL CIVIL INFRA ━━━━━━ -->
+        <div class="section" id="s1">
+            <div class="section-header" onclick="toggleSection('s1')">
+                <div class="section-header-left">
+                    <span class="section-number">1</span>
+                    <span class="section-title">Physical Civil Infrastructure</span>
+                    <span class="section-badge" id="badge-s1">Floor · Walls · Light</span>
+                </div>
+                <span class="expand-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="section-hint">💡 Inspect the floor surface, wall finishing, and overall lighting quality.</div>
+                <div class="section-body">
+                    <div class="sub-section-title">Floor</div>
+                    <div class="field-group">
+                        <label class="field-label">Surface Type</label>
+                        <select class="field-input" data-field="1-floor-type">
+                            <option value="">Select...</option>
+                            <option value="ceramic-tiles">Ceramic Tiles</option>
+                            <option value="vitrified-tiles">Vitrified Tiles</option>
+                            <option value="mosaic">Mosaic</option>
+                            <option value="marble">Marble</option>
+                            <option value="granite">Granite</option>
+                            <option value="anti-skid-tiles">Anti-Skid Tiles</option>
+                            <option value="vinyl">Vinyl</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="field-grid">
+                        <div>
+                            <span class="field-grid-label">Availability</span>
+                            <select class="field-input" data-field="1-floor-avail">
+                                <option value="">Select...</option>
+                                <option value="yes">Present</option>
+                                <option value="no">Missing / Broken</option>
+                            </select>
+                        </div>
+                        <div>
+                            <span class="field-grid-label">Quality / Condition</span>
+                            <select class="field-input" data-field="1-floor-quality">
+                                <option value="">Select...</option>
+                                <option value="excellent">Excellent</option>
+                                <option value="good">Good</option>
+                                <option value="fair">Fair</option>
+                                <option value="poor">Poor</option>
+                                <option value="needs-replacement">Needs Replacement</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field-group" style="margin-top:12px;">
+                        <label class="field-label">Floor Color</label>
+                        <input type="text" class="field-input" data-field="1-floor-color" placeholder="e.g., White, Beige, Grey">
+                    </div>
+
+                    <div class="sub-section-title">Walls</div>
+                    <div class="field-grid">
+                        <div>
+                            <span class="field-grid-label">Wall Type</span>
+                            <select class="field-input" data-field="1-wall-type">
+                                <option value="">Select...</option>
+                                <option value="ceramic-tiles">Ceramic Tiles</option>
+                                <option value="vitrified-tiles">Vitrified Tiles</option>
+                                <option value="paint">Paint</option>
+                                <option value="waterproof-paint">Waterproof Paint</option>
+                                <option value="pvc-panels">PVC Panels</option>
+                                <option value="glass">Glass</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <span class="field-grid-label">Wall Color</span>
+                            <input type="text" class="field-input" data-field="1-wall-color" placeholder="e.g., White, Cream">
+                        </div>
+                    </div>
+
+                    <div class="sub-section-title">Lighting</div>
+                    <div class="field-group">
+                        <label class="field-label">Washroom Light Adequacy</label>
+                        <select class="field-input" data-field="1-washroom-light">
+                            <option value="">Select...</option>
+                            <option value="bright">Bright — No issues</option>
+                            <option value="adequate">Adequate</option>
+                            <option value="dim">Dim — Improvement needed</option>
+                            <option value="insufficient">Insufficient — Risk for elderly</option>
+                        </select>
+                    </div>
+
+                    <div class="section-comments">
+                        <div class="comment-label">💬 Auditor Comments</div>
+                        <textarea class="comment-input" data-field="1-comments" placeholder="Note observations, defects, or recommendations for this section..."></textarea>
+                    </div>
+                    <div class="photo-upload">
+                        <label class="upload-btn" for="upload-1">📷 Add Photos</label>
+                        <input type="file" id="upload-1" accept="image/*" multiple onchange="handlePhotoUpload(event,'1')">
+                        <p class="upload-hint">Optional · tap to select multiple photos</p>
+                        <div class="photo-preview" id="preview-1"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ━━━━━━ 2: ACCESSORIES ━━━━━━ -->
+        <div class="section" id="s2">
+            <div class="section-header" onclick="toggleSection('s2')">
+                <div class="section-header-left">
+                    <span class="section-number">2</span>
+                    <span class="section-title">Accessories</span>
+                    <span class="section-badge" id="badge-s2">Mats · Racks · Hooks</span>
+                </div>
+                <span class="expand-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="section-hint">💡 Anti-skid mat and outdoor PVC mat are critical safety items — flag if missing or worn.</div>
+                <div class="section-body">
+
+                    <!-- Accessory rows -->
+                    <div class="field-group"><label class="field-label">Bucket</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="2-bucket-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-bucket-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
+                    <div class="field-group"><label class="field-label">Round Tub</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="2-tub-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-tub-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
+                    <div class="field-group"><label class="field-label">Plastic Stool</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="2-stool-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-stool-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
+                    <div class="field-group"><label class="field-label">Racks</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="2-racks-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-racks-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
+                    <div class="field-group"><label class="field-label">Wiper</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="2-wiper-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-wiper-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
+                    <div class="field-group"><label class="field-label">Wiper Wall Stand</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="2-wiperstand-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-wiperstand-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
+                    <div class="field-group"><label class="field-label">Towel Hanger</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="2-towel-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-towel-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
+                    <div class="field-group"><label class="field-label">Anti-Skid Mat ⚠️</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="2-antiskid-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No — Recommend immediately</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-antiskid-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor — Replace</option></select></div></div></div>
+                    <div class="field-group"><label class="field-label">PVC Floor Outdoor Mat</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="2-pvcmat-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-pvcmat-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
+
+                    <div class="section-comments">
+                        <div class="comment-label">💬 Auditor Comments</div>
+                        <textarea class="comment-input" data-field="2-comments" placeholder="Missing items, urgent replacements, or general observations..."></textarea>
+                    </div>
+                    <div class="photo-upload">
+                        <label class="upload-btn" for="upload-2">📷 Add Photos</label>
+                        <input type="file" id="upload-2" accept="image/*" multiple onchange="handlePhotoUpload(event,'2')">
+                        <p class="upload-hint">Optional · tap to select multiple photos</p>
+                        <div class="photo-preview" id="preview-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ━━━━━━ 3: WASHROOM FIXTURES ━━━━━━ -->
+        <div class="section" id="s3">
+            <div class="section-header" onclick="toggleSection('s3')">
+                <div class="section-header-left">
+                    <span class="section-number">3</span>
+                    <span class="section-title">Washroom Fixtures</span>
+                    <span class="section-badge" id="badge-s3">Commode · Taps · Shower</span>
+                </div>
+                <span class="expand-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="section-hint">💡 Check each fixture for availability, working condition, leaks, or pressure issues.</div>
+                <div class="section-body">
+                    <div class="field-group"><label class="field-label">WC Commode</label><div class="field-grid"><div><span class="field-grid-label">Type</span><select class="field-input" data-field="3-commode-type"><option value="">Select...</option><option value="western">Western</option><option value="indian">Indian</option><option value="both">Both</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="3-commode-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
+                    <div class="field-group"><label class="field-label">Flush</label><select class="field-input" data-field="3-flush"><option value="">Select...</option><option value="working-good">Working — Good pressure</option><option value="working-weak">Working — Weak pressure</option><option value="not-working">Not Working</option><option value="leaking">Leaking</option></select></div>
+                    <div class="field-group"><label class="field-label">Bidet / Health Faucet</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="3-bidet-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="3-bidet-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="leaking">Leaking</option></select></div></div></div>
+                    <div class="field-group"><label class="field-label">Washbasin</label><select class="field-input" data-field="3-washbasin"><option value="">Select...</option><option value="good">Good condition</option><option value="cracked">Cracked</option><option value="stained">Stained</option><option value="drainage-issue">Drainage issue</option></select></div>
+                    <div class="field-group"><label class="field-label">Shower Panel</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="3-shower-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="3-shower-cond"><option value="">Select...</option><option value="good">Good</option><option value="low-pressure">Low Pressure</option><option value="leaking">Leaking</option></select></div></div></div>
+                    <div class="field-group"><label class="field-label">Faucets</label><select class="field-input" data-field="3-faucets"><option value="">Select...</option><option value="working-good">Working — Good</option><option value="dripping">Dripping</option><option value="stiff">Stiff / Hard to operate</option><option value="not-working">Not Working</option></select></div>
+                    <div class="field-group"><label class="field-label">Utility Tap</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="3-utility-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="3-utility-cond"><option value="">Select...</option><option value="good">Good</option><option value="leaking">Leaking</option><option value="not-working">Not Working</option></select></div></div></div>
+                    <div class="field-group"><label class="field-label">Hot & Cold Water Mixture</label><select class="field-input" data-field="3-water-mix"><option value="">Select...</option><option value="available-working">Available & Working</option><option value="available-not-working">Available — Not Working</option><option value="not-available">Not Available</option></select></div>
+                    <div class="field-group"><label class="field-label">Shaft / Window</label><div class="field-grid"><div><span class="field-grid-label">Type</span><select class="field-input" data-field="3-shaft-type"><option value="">Select...</option><option value="window">Window</option><option value="shaft">Shaft</option><option value="both">Both</option><option value="none">None</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="3-shaft-cond"><option value="">Select...</option><option value="good">Good</option><option value="blocked">Blocked</option><option value="damaged">Damaged</option></select></div></div></div>
+                    <div class="field-group"><label class="field-label">Exhaust Fan</label><select class="field-input" data-field="3-exhaust"><option value="">Select...</option><option value="available-working">Available & Working</option><option value="available-not-working">Available — Not Working</option><option value="noisy">Noisy</option><option value="not-available">Not Available</option></select></div>
+
+                    <div class="section-comments">
+                        <div class="comment-label">💬 Auditor Comments</div>
+                        <textarea class="comment-input" data-field="3-comments" placeholder="Leaks, pressure issues, repair recommendations..."></textarea>
+                    </div>
+                    <div class="photo-upload">
+                        <label class="upload-btn" for="upload-3">📷 Add Photos</label>
+                        <input type="file" id="upload-3" accept="image/*" multiple onchange="handlePhotoUpload(event,'3')">
+                        <p class="upload-hint">Optional · tap to select multiple photos</p>
+                        <div class="photo-preview" id="preview-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ━━━━━━ 4: SHARP EDGES & PLUMBING ━━━━━━ -->
+        <div class="section" id="s4">
+            <div class="section-header" onclick="toggleSection('s4')">
+                <div class="section-header-left">
+                    <span class="section-number">4</span>
+                    <span class="section-title">Sharp Edges &amp; Plumbing</span>
+                    <span class="section-badge" id="badge-s4">Hazards · Drains</span>
+                </div>
+                <span class="expand-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="section-hint">⚠️ Rate each hazard. Flag any High Risk items for immediate action in your comments.</div>
+                <div class="section-body">
+                    <div class="sub-section-title">Sharp Edges & Hazards</div>
+                    <div class="field-group"><label class="field-label">Slab Corner</label><select class="field-input" data-field="4-slab-corner"><option value="">Select...</option><option value="no-risk">✅ No Risk — Rounded / Protected</option><option value="low-risk">🟡 Low Risk</option><option value="medium-risk">🟠 Medium Risk</option><option value="high-risk">🔴 High Risk — Immediate action needed</option></select></div>
+                    <div class="field-group"><label class="field-label">Bidet Edges</label><select class="field-input" data-field="4-bidet-edges"><option value="">Select...</option><option value="no-risk">✅ No Risk</option><option value="low-risk">🟡 Low Risk</option><option value="medium-risk">🟠 Medium Risk</option><option value="high-risk">🔴 High Risk</option></select></div>
+                    <div class="field-group"><label class="field-label">Protruding Objects</label><select class="field-input" data-field="4-protruding"><option value="">Select...</option><option value="none">None</option><option value="hooks-safe">Hooks — Safely rounded</option><option value="hooks-sharp">Hooks — Sharp</option><option value="pipes">Exposed pipes</option><option value="fixtures">Sharp fixtures</option></select></div>
+                    <div class="field-group"><label class="field-label">Electric Shock Risk</label><select class="field-input" data-field="4-electric-risk"><option value="">Select...</option><option value="no-risk">✅ No Risk — Properly insulated</option><option value="low-risk">🟡 Low Risk</option><option value="medium-risk">🟠 Medium Risk — Check needed</option><option value="high-risk">🔴 High Risk — Exposed wiring</option></select></div>
+
+                    <div class="sub-section-title">Plumbing Drainage</div>
+                    <div class="field-group"><label class="field-label">Shower Drain</label><select class="field-input" data-field="4-shower-drain"><option value="">Select...</option><option value="working-well">Working well</option><option value="slow">Slow drainage</option><option value="clogged">Clogged / Blocked</option><option value="overflowing">Overflowing</option><option value="no-drain">No drain</option></select></div>
+                    <div class="field-group"><label class="field-label">Utility Drain</label><select class="field-input" data-field="4-utility-drain"><option value="">Select...</option><option value="working-well">Working well</option><option value="slow">Slow drainage</option><option value="clogged">Clogged / Blocked</option><option value="not-available">Not available</option></select></div>
+                    <div class="field-group"><label class="field-label">WC Drain</label><select class="field-input" data-field="4-wc-drain"><option value="">Select...</option><option value="working-well">Working well</option><option value="slow">Slow drainage</option><option value="frequent-clog">Frequent clogging</option><option value="odor">Odour issues</option></select></div>
+                    <div class="field-group"><label class="field-label">Sink Drain</label><select class="field-input" data-field="4-sink-drain"><option value="">Select...</option><option value="working-well">Working well</option><option value="slow">Slow drainage</option><option value="clogged">Clogged</option><option value="leaking">Leaking</option></select></div>
+
+                    <div class="section-comments">
+                        <div class="comment-label">💬 Auditor Comments</div>
+                        <textarea class="comment-input" data-field="4-comments" placeholder="Describe sharp edges, immediate risks, or drain issues that need urgent attention..."></textarea>
+                    </div>
+                    <div class="photo-upload">
+                        <label class="upload-btn" for="upload-4">📷 Add Photos</label>
+                        <input type="file" id="upload-4" accept="image/*" multiple onchange="handlePhotoUpload(event,'4')">
+                        <p class="upload-hint">Optional · tap to select multiple photos</p>
+                        <div class="photo-preview" id="preview-4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ━━━━━━ 5: USER PROFILES ━━━━━━ -->
+        <div class="section" id="s5">
+            <div class="section-header" onclick="toggleSection('s5')">
+                <div class="section-header-left">
+                    <span class="section-number">5</span>
+                    <span class="section-title">User Profiles</span>
+                    <span class="section-badge" id="badge-s5">Multiple users supported</span>
+                </div>
+                <span class="expand-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="section-hint">👤 Add a profile for each person who uses this bathroom. More users = more personalised safety assessment.</div>
+                <div class="section-body">
+                    <div id="users-container"></div>
+                    <button class="add-user-btn" onclick="addUser()">＋ Add Another User</button>
+                    <div class="section-comments">
+                        <div class="comment-label">💬 Auditor Comments</div>
+                        <textarea class="comment-input" data-field="5-comments" placeholder="Overall notes on user needs, mobility concerns, special requirements..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ━━━━━━ 6: WASHROOM CONFIGURATION ━━━━━━ -->
+        <div class="section" id="s6">
+            <div class="section-header" onclick="toggleSection('s6')">
+                <div class="section-header-left">
+                    <span class="section-number">6</span>
+                    <span class="section-title">Washroom Configuration</span>
+                    <span class="section-badge" id="badge-s6">Type · Layout</span>
+                </div>
+                <span class="expand-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="section-hint">💡 Select the bathroom type that best describes this space's layout.</div>
+                <div class="section-body">
+                    <div class="field-group">
+                        <label class="field-label">Configuration Type</label>
+                        <select class="field-input" data-field="6-config-type">
+                            <option value="">Select...</option>
+                            <option value="powder-room">Powder Room (Half Bath)</option>
+                            <option value="full-bath">Full Bath</option>
+                            <option value="three-quarter">Three-Quarter Bath</option>
+                            <option value="en-suite">En Suite Bathroom</option>
+                            <option value="jack-jill">Jack-and-Jill Bathroom</option>
+                            <option value="wet-room">Wet Room</option>
+                            <option value="family">Family Bathroom</option>
+                            <option value="split">Split Bathroom</option>
+                            <option value="master">Master Bathroom</option>
+                            <option value="compact">Compact / Corner Bathroom</option>
+                            <option value="laundry-combo">Laundry-Bathroom Combo</option>
+                        </select>
+                    </div>
+                    <div class="section-comments">
+                        <div class="comment-label">💬 Auditor Comments</div>
+                        <textarea class="comment-input" data-field="6-comments" placeholder="Layout concerns, space constraints, or special features..."></textarea>
+                    </div>
+                    <div class="photo-upload">
+                        <label class="upload-btn" for="upload-6">📷 Add Photos</label>
+                        <input type="file" id="upload-6" accept="image/*" multiple onchange="handlePhotoUpload(event,'6')">
+                        <p class="upload-hint">Optional · tap to select multiple photos</p>
+                        <div class="photo-preview" id="preview-6"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ━━━━━━ 7: ELECTRICAL, LIGHTING & HEATING ━━━━━━ -->
+        <div class="section" id="s7">
+            <div class="section-header" onclick="toggleSection('s7')">
+                <div class="section-header-left">
+                    <span class="section-number">7</span>
+                    <span class="section-title">Electrical, Lighting &amp; Heating</span>
+                    <span class="section-badge" id="badge-s7">Power · Geyser · Pipes</span>
+                </div>
+                <span class="expand-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="section-hint">⚡ Verify power sources, backup availability, geyser function, and pipe condition.</div>
+                <div class="section-body">
+                    <div class="sub-section-title">Power & Lighting</div>
+                    <div class="field-group"><label class="field-label">Power Supply Source</label><select class="field-input" data-field="7-power-source"><option value="">Select...</option><option value="grid">Main Grid</option><option value="grid-backup">Grid + Backup</option><option value="solar">Solar</option><option value="mixed">Mixed Sources</option></select></div>
+                    <div class="field-group"><label class="field-label">Switchboard Location</label><select class="field-input" data-field="7-switchboard"><option value="">Select...</option><option value="inside-safe">Inside — Safe position</option><option value="inside-risk">Inside — Near water ⚠️</option><option value="outside">Outside bathroom</option></select></div>
+                    <div class="field-grid">
+                        <div><span class="field-grid-label">No. of Light Points</span><input type="number" class="field-input" data-field="7-light-points" placeholder="e.g., 2" min="0"></div>
+                        <div><span class="field-grid-label">Ceiling Light Type</span><select class="field-input" data-field="7-ceiling-light"><option value="">Select...</option><option value="led">LED</option><option value="cfl">CFL</option><option value="tube">Tube Light</option><option value="incandescent">Incandescent</option><option value="none">None</option></select></div>
+                    </div>
+                    <div class="field-grid" style="margin-top:12px;">
+                        <div><span class="field-grid-label">Light Color</span><select class="field-input" data-field="7-light-color"><option value="">Select...</option><option value="warm-white">Warm White</option><option value="cool-white">Cool White</option><option value="daylight">Daylight</option><option value="yellow">Yellow</option></select></div>
+                        <div><span class="field-grid-label">Brightness</span><select class="field-input" data-field="7-light-lumen"><option value="">Select...</option><option value="bright">Bright (>800 lm)</option><option value="adequate">Adequate (400–800 lm)</option><option value="dim">Dim (<400 lm)</option></select></div>
+                    </div>
+
+                    <div class="sub-section-title">Backup</div>
+                    <div class="field-grid">
+                        <div><span class="field-grid-label">DG Backup</span><div class="radio-group"><label class="radio-label"><input type="radio" name="7-dg" value="yes" data-field="7-dg"> Yes</label><label class="radio-label"><input type="radio" name="7-dg" value="no" data-field="7-dg"> No</label></div></div>
+                        <div><span class="field-grid-label">Inverter Backup</span><div class="radio-group"><label class="radio-label"><input type="radio" name="7-inv" value="yes" data-field="7-inv"> Yes</label><label class="radio-label"><input type="radio" name="7-inv" value="no" data-field="7-inv"> No</label></div></div>
+                    </div>
+
+                    <div class="sub-section-title">Heating & Pipes</div>
+                    <div class="field-group"><label class="field-label">Geyser</label><select class="field-input" data-field="7-geyser"><option value="">Select...</option><option value="electric-working">Electric — Working</option><option value="electric-not-working">Electric — Not Working</option><option value="solar">Solar</option><option value="instant">Instant Heater</option><option value="none">None</option></select></div>
+                    <div class="field-grid">
+                        <div><span class="field-grid-label">Pipe Status</span><select class="field-input" data-field="7-pipe-status"><option value="">Select...</option><option value="good-insulated">Good — Insulated</option><option value="good-exposed">Good — Exposed</option><option value="leaking">Leaking</option><option value="damaged">Damaged</option><option value="rusted">Rusted</option></select></div>
+                        <div><span class="field-grid-label">Thermostat Status</span><select class="field-input" data-field="7-thermostat"><option value="">Select...</option><option value="available-working">Available & Working</option><option value="available-not-working">Not Working</option><option value="not-available">Not Available</option></select></div>
+                    </div>
+
+                    <div class="section-comments">
+                        <div class="comment-label">💬 Auditor Comments</div>
+                        <textarea class="comment-input" data-field="7-comments" placeholder="Electrical safety concerns, heating issues, pipe conditions..."></textarea>
+                    </div>
+                    <div class="photo-upload">
+                        <label class="upload-btn" for="upload-7">📷 Add Photos</label>
+                        <input type="file" id="upload-7" accept="image/*" multiple onchange="handlePhotoUpload(event,'7')">
+                        <p class="upload-hint">Optional · tap to select multiple photos</p>
+                        <div class="photo-preview" id="preview-7"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ━━━━━━ 8: ACCESS & EXIT ━━━━━━ -->
+        <div class="section" id="s8">
+            <div class="section-header" onclick="toggleSection('s8')">
+                <div class="section-header-left">
+                    <span class="section-number">8</span>
+                    <span class="section-title">Access &amp; Exit</span>
+                    <span class="section-badge" id="badge-s8">Door · Steps · Path</span>
+                </div>
+                <span class="expand-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="section-hint">🚪 Steps, floor transitions, and door type are critical for fall risk — especially for night-time bathroom visits.</div>
+                <div class="section-body">
+                    <div class="field-group"><label class="field-label">Step on Floor (Threshold)</label><select class="field-input" data-field="8-step"><option value="">Select...</option><option value="none">No Step — Level entry</option><option value="small">Small Step (&lt;2 inches)</option><option value="medium">Medium Step (2–4 inches)</option><option value="large">Large Step (&gt;4 inches)</option></select></div>
+                    <div class="field-grid">
+                        <div><span class="field-grid-label">Level Variation</span><select class="field-input" data-field="8-level-variation"><option value="">Select...</option><option value="none">None — Level floor</option><option value="slight">Slight variation</option><option value="significant">Significant</option><option value="tripping-hazard">Tripping hazard 🔴</option></select></div>
+                        <div><span class="field-grid-label">Floor Variation Inside</span><select class="field-input" data-field="8-floor-variation"><option value="">Select...</option><option value="level">Level throughout</option><option value="slight-slope">Slight slope (drainage)</option><option value="uneven">Uneven</option><option value="hazardous">Hazardous 🔴</option></select></div>
+                    </div>
+                    <div class="field-group" style="margin-top:12px;"><label class="field-label">Lighting Outside Bathroom Door</label><select class="field-input" data-field="8-outside-lighting"><option value="">Select...</option><option value="bright">Bright</option><option value="adequate">Adequate</option><option value="dim">Dim</option><option value="none">None / Dark ⚠️</option><option value="motion-sensor">Motion Sensor Light</option></select></div>
+                    <div class="field-grid">
+                        <div><span class="field-grid-label">Door Type</span><select class="field-input" data-field="8-door-type"><option value="">Select...</option><option value="hinged-outward">Hinged — Opens Outward</option><option value="hinged-inward">Hinged — Opens Inward</option><option value="sliding">Sliding</option><option value="folding">Folding</option></select></div>
+                        <div><span class="field-grid-label">Door Width</span><select class="field-input" data-field="8-door-width"><option value="">Select...</option><option value="wide">Wide (&gt;32 inches)</option><option value="standard">Standard (30–32 in)</option><option value="narrow">Narrow (&lt;30 inches)</option></select></div>
+                    </div>
+
+                    <div class="section-comments">
+                        <div class="comment-label">💬 Auditor Comments</div>
+                        <textarea class="comment-input" data-field="8-comments" placeholder="Tripping hazards, poor lighting on path, door concerns..."></textarea>
+                    </div>
+                    <div class="photo-upload">
+                        <label class="upload-btn" for="upload-8">📷 Add Photos</label>
+                        <input type="file" id="upload-8" accept="image/*" multiple onchange="handlePhotoUpload(event,'8')">
+                        <p class="upload-hint">Optional · tap to select multiple photos</p>
+                        <div class="photo-preview" id="preview-8"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /content -->
+
+    <!-- ══════════ ACTIONS ══════════ -->
+    <div class="actions">
+        <button class="btn btn-secondary" onclick="saveDraft()">💾 Save Draft</button>
+        <button class="btn btn-primary" onclick="submitForm()">Submit Audit →</button>
+    </div>
+
+</div><!-- /container -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+    // ─── State ───────────────────────────────────────────
+    const photoData = {};
+    let userCount = 0;
+    const expandedSections = new Set();
+
+    // ─── Init ────────────────────────────────────────────
+    window.onload = function () {
+        document.getElementById('meta-date').valueAsDate = new Date();
+        addUser(); // Start with one user
+        const draft = localStorage.getItem('bathroomAuditDraft');
+        if (draft) {
+            try { restoreDraft(JSON.parse(draft)); showToast('📋 Draft restored'); } catch(e) {}
+        }
+    };
+
+    // ─── Section toggle ──────────────────────────────────
+    function toggleSection(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.classList.toggle('expanded');
+        expandedSections[el.classList.contains('expanded') ? 'add' : 'delete'](id);
+        updateProgress();
+    }
+
+    function updateProgress() {
+        const done = expandedSections.size;
+        document.getElementById('progressFill').style.width = Math.round((done / 8) * 100) + '%';
+        document.getElementById('progressLabel').textContent = done + ' / 8 sections opened';
+    }
+
+    // ─── User profiles ───────────────────────────────────
+    function addUser() {
+        userCount++;
+        const uid = userCount;
+        const container = document.getElementById('users-container');
+        const card = document.createElement('div');
+        card.className = 'user-card';
+        card.id = 'user-card-' + uid;
+        card.innerHTML = `
+        <div class="user-card-header">
+            <div class="user-card-title">
+                <div class="user-avatar">${uid}</div>
+                User ${uid}
+            </div>
+            ${uid > 1 ? `<button class="remove-user-btn" onclick="removeUser(${uid})">Remove</button>` : ''}
+        </div>
+        <div class="user-card-body">
+            <div class="field-grid" style="margin-bottom:14px;">
+                <div><span class="field-grid-label">Age</span><input type="number" class="field-input" data-field="u${uid}-age" placeholder="e.g., 65" min="0" max="120"></div>
+                <div><span class="field-grid-label">Weight (kg)</span><input type="number" class="field-input" data-field="u${uid}-weight" placeholder="e.g., 70"></div>
+            </div>
+            <div class="field-grid" style="margin-bottom:14px;">
+                <div><span class="field-grid-label">Height (cm)</span><input type="number" class="field-input" data-field="u${uid}-height" placeholder="e.g., 165"></div>
+                <div><span class="field-grid-label">Relationship</span><select class="field-input" data-field="u${uid}-relation"><option value="">Select...</option><option value="self">Self</option><option value="spouse">Spouse / Partner</option><option value="parent">Parent</option><option value="child">Child</option><option value="other">Other</option></select></div>
+            </div>
+            <div class="field-group">
+                <label class="field-label">Known Conditions</label>
+                <div class="check-group">
+                    <label class="check-label"><input type="checkbox" data-field="u${uid}-cond-bp"> Blood Pressure</label>
+                    <label class="check-label"><input type="checkbox" data-field="u${uid}-cond-diabetes"> Diabetes</label>
+                    <label class="check-label"><input type="checkbox" data-field="u${uid}-cond-heart"> Heart</label>
+                    <label class="check-label"><input type="checkbox" data-field="u${uid}-cond-mobility"> Mobility Issues</label>
+                </div>
+            </div>
+            <div class="field-group">
+                <label class="field-label">Other Conditions / Medications</label>
+                <textarea class="field-input" data-field="u${uid}-conditions-other" placeholder="Other conditions or medications..." style="min-height:56px;"></textarea>
+            </div>
+            <div class="field-grid" style="margin-bottom:14px;">
+                <div><span class="field-grid-label">Wake Time</span><select class="field-input" data-field="u${uid}-wake-time"><option value="">Select...</option><option value="before-5am">Before 5 AM</option><option value="5am-6am">5–6 AM</option><option value="6am-7am">6–7 AM</option><option value="7am-8am">7–8 AM</option><option value="after-8am">After 8 AM</option></select></div>
+                <div><span class="field-grid-label">Sleep Time</span><select class="field-input" data-field="u${uid}-sleep-time"><option value="">Select...</option><option value="before-9pm">Before 9 PM</option><option value="9pm-10pm">9–10 PM</option><option value="10pm-11pm">10–11 PM</option><option value="11pm-12am">11 PM–12 AM</option><option value="after-12am">After 12 AM</option></select></div>
+            </div>
+            <div class="field-grid" style="margin-bottom:14px;">
+                <div><span class="field-grid-label">Dinner Time</span><select class="field-input" data-field="u${uid}-dinner"><option value="">Select...</option><option value="before-7pm">Before 7 PM</option><option value="7pm-8pm">7–8 PM</option><option value="8pm-9pm">8–9 PM</option><option value="9pm-10pm">9–10 PM</option><option value="after-10pm">After 10 PM</option></select></div>
+                <div><span class="field-grid-label">Water Before Bed</span><select class="field-input" data-field="u${uid}-water-habit"><option value="">Select...</option><option value="none">None</option><option value="sips">Few sips</option><option value="one-glass">One glass</option><option value="two-plus">Two+ glasses</option></select></div>
+            </div>
+            <div class="field-group">
+                <label class="field-label">Bathroom Path Access</label>
+                <select class="field-input" data-field="u${uid}-path-access"><option value="">Select...</option><option value="direct">Direct from bedroom</option><option value="hallway">Through hallway</option><option value="stairs">Includes stairs</option><option value="difficult">Difficult access</option></select>
+            </div>
+            <div class="field-group">
+                <label class="field-label">Sleep Habits / Notes</label>
+                <textarea class="field-input" data-field="u${uid}-sleep-notes" placeholder="e.g., Light sleeper, wakes frequently, uses walking aid..." style="min-height:56px;"></textarea>
+            </div>
+        </div>`;
+        container.appendChild(card);
+    }
+
+    function removeUser(uid) {
+        const card = document.getElementById('user-card-' + uid);
+        if (card) card.remove();
+    }
+
+    // ─── Photos ──────────────────────────────────────────
+    function handlePhotoUpload(event, sid) {
+        if (!photoData[sid]) photoData[sid] = [];
+        for (let file of event.target.files) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const idx = photoData[sid].push({ name: file.name, data: e.target.result }) - 1;
+                const preview = document.getElementById('preview-' + sid);
+                const item = document.createElement('div');
+                item.className = 'photo-item';
+                item.id = `photo-${sid}-${idx}`;
+                item.innerHTML = `<img src="${e.target.result}" alt="${file.name}"><button class="photo-remove" onclick="removePhoto('${sid}',${idx})">×</button>`;
+                preview.appendChild(item);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function removePhoto(sid, idx) {
+        if (photoData[sid]) photoData[sid][idx] = null;
+        const item = document.getElementById(`photo-${sid}-${idx}`);
+        if (item) item.remove();
+    }
+
+    // ─── Collect ─────────────────────────────────────────
+    function collectFormData() {
+        const data = {
+            meta: {
+                auditor: document.getElementById('meta-auditor').value,
+                date: document.getElementById('meta-date').value,
+                location: document.getElementById('meta-location').value,
+            },
+            photos: photoData,
+            timestamp: new Date().toISOString()
+        };
+        document.querySelectorAll('[data-field]').forEach(el => {
+            const f = el.getAttribute('data-field');
+            if (!f) return;
+            if (el.type === 'checkbox') data[f] = el.checked;
+            else if (el.type === 'radio') { if (el.checked) data[f] = el.value; }
+            else data[f] = el.value;
+        });
+        return data;
+    }
+
+    // ─── Save / Submit ───────────────────────────────────
+    function saveDraft() {
+        localStorage.setItem('bathroomAuditDraft', JSON.stringify(collectFormData()));
+        showToast('✓ Draft saved');
+    }
+
+    function submitForm() {
+        const data = collectFormData();
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `bathroom-audit-${Date.now()}.json`;
+        a.click();
+        showToast('✓ Audit submitted & downloaded');
+        localStorage.removeItem('bathroomAuditDraft');
+    }
+
+    // ─── Restore draft ───────────────────────────────────
+    function restoreDraft(data) {
+        if (data.meta) {
+            if (data.meta.auditor) document.getElementById('meta-auditor').value = data.meta.auditor;
+            if (data.meta.date) document.getElementById('meta-date').value = data.meta.date;
+            if (data.meta.location) document.getElementById('meta-location').value = data.meta.location;
+        }
+        for (const [field, value] of Object.entries(data)) {
+            const el = document.querySelector(`[data-field="${field}"]`);
+            if (!el) continue;
+            if (el.type === 'checkbox') el.checked = value;
+            else if (el.type === 'radio') el.checked = (el.value === value);
+            else el.value = value;
+        }
+    }
+
+    // ─── Toast ───────────────────────────────────────────
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 3000);
+    }
+</script>
+</body>
+</html>
