@@ -589,6 +589,50 @@
 
         .toast.show { transform: translateY(0); opacity: 1; }
 
+        /* ─── Conditional follow-up fields ─── */
+        .follow-up {
+            transition: opacity 0.2s, max-height 0.25s ease;
+            max-height: 200px;
+            overflow: hidden;
+        }
+        .follow-up.hidden {
+            opacity: 0;
+            max-height: 0;
+            pointer-events: none;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        .na-pill {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2px 8px;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        /* ─── Print / PDF ─── */
+        @media print {
+            body { background: white !important; padding: 0 !important; }
+            .container { max-width: 100% !important; }
+            .header { border-radius: 0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .meta-bar { border-left: none; border-right: none; }
+            .content { padding: 0 !important; gap: 0 !important; }
+            .section { border-radius: 0 !important; page-break-inside: avoid; margin-bottom: 0 !important; box-shadow: none !important; border-left: none !important; border-right: none !important; border-color: #ddd !important; }
+            .section-content { max-height: none !important; overflow: visible !important; }
+            .section-hint { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .section-number { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .expand-icon, .add-user-btn, .remove-user-btn, .upload-btn, .upload-hint, .actions { display: none !important; }
+            .photo-item { width: 72px !important; height: 72px !important; }
+            .follow-up.hidden { display: none !important; }
+            .user-card { page-break-inside: avoid; }
+            .progress-wrap { display: none; }
+        }
+
         /* ─── Responsive ─── */
         @media (max-width: 560px) {
             body { padding: 0 0 60px; }
@@ -750,455 +794,10 @@
                 <div class="section-body">
 
                     <!-- Accessory rows -->
-                    <div class="field-group"><label class="field-label">Bucket</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="2-bucket-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-bucket-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
-                    <div class="field-group"><label class="field-label">Round Tub</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="2-tub-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-tub-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
-                    <div class="field-group"><label class="field-label">Plastic Stool</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="2-stool-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-stool-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
-                    <div class="field-group"><label class="field-label">Racks</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="2-racks-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-racks-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
-                    <div class="field-group"><label class="field-label">Wiper</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="2-wiper-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-wiper-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
-                    <div class="field-group"><label class="field-label">Wiper Wall Stand</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="2-wiperstand-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-wiperstand-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
-                    <div class="field-group"><label class="field-label">Towel Hanger</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="2-towel-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-towel-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
-                    <div class="field-group"><label class="field-label">Anti-Skid Mat ⚠️</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="2-antiskid-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No — Recommend immediately</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-antiskid-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor — Replace</option></select></div></div></div>
-                    <div class="field-group"><label class="field-label">PVC Floor Outdoor Mat</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="2-pvcmat-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-pvcmat-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
-
-                    <div class="section-comments">
-                        <div class="comment-label">💬 Auditor Comments</div>
-                        <textarea class="comment-input" data-field="2-comments" placeholder="Missing items, urgent replacements, or general observations..."></textarea>
-                    </div>
-                    <div class="photo-upload">
-                        <label class="upload-btn" for="upload-2">📷 Add Photos</label>
-                        <input type="file" id="upload-2" accept="image/*" multiple onchange="handlePhotoUpload(event,'2')">
-                        <p class="upload-hint">Optional · tap to select multiple photos</p>
-                        <div class="photo-preview" id="preview-2"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ━━━━━━ 3: WASHROOM FIXTURES ━━━━━━ -->
-        <div class="section" id="s3">
-            <div class="section-header" onclick="toggleSection('s3')">
-                <div class="section-header-left">
-                    <span class="section-number">3</span>
-                    <span class="section-title">Washroom Fixtures</span>
-                    <span class="section-badge" id="badge-s3">Commode · Taps · Shower</span>
-                </div>
-                <span class="expand-icon">▼</span>
-            </div>
-            <div class="section-content">
-                <div class="section-hint">💡 Check each fixture for availability, working condition, leaks, or pressure issues.</div>
-                <div class="section-body">
-                    <div class="field-group"><label class="field-label">WC Commode</label><div class="field-grid"><div><span class="field-grid-label">Type</span><select class="field-input" data-field="3-commode-type"><option value="">Select...</option><option value="western">Western</option><option value="indian">Indian</option><option value="both">Both</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="3-commode-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
-                    <div class="field-group"><label class="field-label">Flush</label><select class="field-input" data-field="3-flush"><option value="">Select...</option><option value="working-good">Working — Good pressure</option><option value="working-weak">Working — Weak pressure</option><option value="not-working">Not Working</option><option value="leaking">Leaking</option></select></div>
-                    <div class="field-group"><label class="field-label">Bidet / Health Faucet</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="3-bidet-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="3-bidet-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="leaking">Leaking</option></select></div></div></div>
-                    <div class="field-group"><label class="field-label">Washbasin</label><select class="field-input" data-field="3-washbasin"><option value="">Select...</option><option value="good">Good condition</option><option value="cracked">Cracked</option><option value="stained">Stained</option><option value="drainage-issue">Drainage issue</option></select></div>
-                    <div class="field-group"><label class="field-label">Shower Panel</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="3-shower-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="3-shower-cond"><option value="">Select...</option><option value="good">Good</option><option value="low-pressure">Low Pressure</option><option value="leaking">Leaking</option></select></div></div></div>
-                    <div class="field-group"><label class="field-label">Faucets</label><select class="field-input" data-field="3-faucets"><option value="">Select...</option><option value="working-good">Working — Good</option><option value="dripping">Dripping</option><option value="stiff">Stiff / Hard to operate</option><option value="not-working">Not Working</option></select></div>
-                    <div class="field-group"><label class="field-label">Utility Tap</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input" data-field="3-utility-avail"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="3-utility-cond"><option value="">Select...</option><option value="good">Good</option><option value="leaking">Leaking</option><option value="not-working">Not Working</option></select></div></div></div>
-                    <div class="field-group"><label class="field-label">Hot & Cold Water Mixture</label><select class="field-input" data-field="3-water-mix"><option value="">Select...</option><option value="available-working">Available & Working</option><option value="available-not-working">Available — Not Working</option><option value="not-available">Not Available</option></select></div>
-                    <div class="field-group"><label class="field-label">Shaft / Window</label><div class="field-grid"><div><span class="field-grid-label">Type</span><select class="field-input" data-field="3-shaft-type"><option value="">Select...</option><option value="window">Window</option><option value="shaft">Shaft</option><option value="both">Both</option><option value="none">None</option></select></div><div><span class="field-grid-label">Condition</span><select class="field-input" data-field="3-shaft-cond"><option value="">Select...</option><option value="good">Good</option><option value="blocked">Blocked</option><option value="damaged">Damaged</option></select></div></div></div>
-                    <div class="field-group"><label class="field-label">Exhaust Fan</label><select class="field-input" data-field="3-exhaust"><option value="">Select...</option><option value="available-working">Available & Working</option><option value="available-not-working">Available — Not Working</option><option value="noisy">Noisy</option><option value="not-available">Not Available</option></select></div>
-
-                    <div class="section-comments">
-                        <div class="comment-label">💬 Auditor Comments</div>
-                        <textarea class="comment-input" data-field="3-comments" placeholder="Leaks, pressure issues, repair recommendations..."></textarea>
-                    </div>
-                    <div class="photo-upload">
-                        <label class="upload-btn" for="upload-3">📷 Add Photos</label>
-                        <input type="file" id="upload-3" accept="image/*" multiple onchange="handlePhotoUpload(event,'3')">
-                        <p class="upload-hint">Optional · tap to select multiple photos</p>
-                        <div class="photo-preview" id="preview-3"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ━━━━━━ 4: SHARP EDGES & PLUMBING ━━━━━━ -->
-        <div class="section" id="s4">
-            <div class="section-header" onclick="toggleSection('s4')">
-                <div class="section-header-left">
-                    <span class="section-number">4</span>
-                    <span class="section-title">Sharp Edges &amp; Plumbing</span>
-                    <span class="section-badge" id="badge-s4">Hazards · Drains</span>
-                </div>
-                <span class="expand-icon">▼</span>
-            </div>
-            <div class="section-content">
-                <div class="section-hint">⚠️ Rate each hazard. Flag any High Risk items for immediate action in your comments.</div>
-                <div class="section-body">
-                    <div class="sub-section-title">Sharp Edges & Hazards</div>
-                    <div class="field-group"><label class="field-label">Slab Corner</label><select class="field-input" data-field="4-slab-corner"><option value="">Select...</option><option value="no-risk">✅ No Risk — Rounded / Protected</option><option value="low-risk">🟡 Low Risk</option><option value="medium-risk">🟠 Medium Risk</option><option value="high-risk">🔴 High Risk — Immediate action needed</option></select></div>
-                    <div class="field-group"><label class="field-label">Bidet Edges</label><select class="field-input" data-field="4-bidet-edges"><option value="">Select...</option><option value="no-risk">✅ No Risk</option><option value="low-risk">🟡 Low Risk</option><option value="medium-risk">🟠 Medium Risk</option><option value="high-risk">🔴 High Risk</option></select></div>
-                    <div class="field-group"><label class="field-label">Protruding Objects</label><select class="field-input" data-field="4-protruding"><option value="">Select...</option><option value="none">None</option><option value="hooks-safe">Hooks — Safely rounded</option><option value="hooks-sharp">Hooks — Sharp</option><option value="pipes">Exposed pipes</option><option value="fixtures">Sharp fixtures</option></select></div>
-                    <div class="field-group"><label class="field-label">Electric Shock Risk</label><select class="field-input" data-field="4-electric-risk"><option value="">Select...</option><option value="no-risk">✅ No Risk — Properly insulated</option><option value="low-risk">🟡 Low Risk</option><option value="medium-risk">🟠 Medium Risk — Check needed</option><option value="high-risk">🔴 High Risk — Exposed wiring</option></select></div>
-
-                    <div class="sub-section-title">Plumbing Drainage</div>
-                    <div class="field-group"><label class="field-label">Shower Drain</label><select class="field-input" data-field="4-shower-drain"><option value="">Select...</option><option value="working-well">Working well</option><option value="slow">Slow drainage</option><option value="clogged">Clogged / Blocked</option><option value="overflowing">Overflowing</option><option value="no-drain">No drain</option></select></div>
-                    <div class="field-group"><label class="field-label">Utility Drain</label><select class="field-input" data-field="4-utility-drain"><option value="">Select...</option><option value="working-well">Working well</option><option value="slow">Slow drainage</option><option value="clogged">Clogged / Blocked</option><option value="not-available">Not available</option></select></div>
-                    <div class="field-group"><label class="field-label">WC Drain</label><select class="field-input" data-field="4-wc-drain"><option value="">Select...</option><option value="working-well">Working well</option><option value="slow">Slow drainage</option><option value="frequent-clog">Frequent clogging</option><option value="odor">Odour issues</option></select></div>
-                    <div class="field-group"><label class="field-label">Sink Drain</label><select class="field-input" data-field="4-sink-drain"><option value="">Select...</option><option value="working-well">Working well</option><option value="slow">Slow drainage</option><option value="clogged">Clogged</option><option value="leaking">Leaking</option></select></div>
-
-                    <div class="section-comments">
-                        <div class="comment-label">💬 Auditor Comments</div>
-                        <textarea class="comment-input" data-field="4-comments" placeholder="Describe sharp edges, immediate risks, or drain issues that need urgent attention..."></textarea>
-                    </div>
-                    <div class="photo-upload">
-                        <label class="upload-btn" for="upload-4">📷 Add Photos</label>
-                        <input type="file" id="upload-4" accept="image/*" multiple onchange="handlePhotoUpload(event,'4')">
-                        <p class="upload-hint">Optional · tap to select multiple photos</p>
-                        <div class="photo-preview" id="preview-4"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ━━━━━━ 5: USER PROFILES ━━━━━━ -->
-        <div class="section" id="s5">
-            <div class="section-header" onclick="toggleSection('s5')">
-                <div class="section-header-left">
-                    <span class="section-number">5</span>
-                    <span class="section-title">User Profiles</span>
-                    <span class="section-badge" id="badge-s5">Multiple users supported</span>
-                </div>
-                <span class="expand-icon">▼</span>
-            </div>
-            <div class="section-content">
-                <div class="section-hint">👤 Add a profile for each person who uses this bathroom. More users = more personalised safety assessment.</div>
-                <div class="section-body">
-                    <div id="users-container"></div>
-                    <button class="add-user-btn" onclick="addUser()">＋ Add Another User</button>
-                    <div class="section-comments">
-                        <div class="comment-label">💬 Auditor Comments</div>
-                        <textarea class="comment-input" data-field="5-comments" placeholder="Overall notes on user needs, mobility concerns, special requirements..."></textarea>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ━━━━━━ 6: WASHROOM CONFIGURATION ━━━━━━ -->
-        <div class="section" id="s6">
-            <div class="section-header" onclick="toggleSection('s6')">
-                <div class="section-header-left">
-                    <span class="section-number">6</span>
-                    <span class="section-title">Washroom Configuration</span>
-                    <span class="section-badge" id="badge-s6">Type · Layout</span>
-                </div>
-                <span class="expand-icon">▼</span>
-            </div>
-            <div class="section-content">
-                <div class="section-hint">💡 Select the bathroom type that best describes this space's layout.</div>
-                <div class="section-body">
-                    <div class="field-group">
-                        <label class="field-label">Configuration Type</label>
-                        <select class="field-input" data-field="6-config-type">
-                            <option value="">Select...</option>
-                            <option value="powder-room">Powder Room (Half Bath)</option>
-                            <option value="full-bath">Full Bath</option>
-                            <option value="three-quarter">Three-Quarter Bath</option>
-                            <option value="en-suite">En Suite Bathroom</option>
-                            <option value="jack-jill">Jack-and-Jill Bathroom</option>
-                            <option value="wet-room">Wet Room</option>
-                            <option value="family">Family Bathroom</option>
-                            <option value="split">Split Bathroom</option>
-                            <option value="master">Master Bathroom</option>
-                            <option value="compact">Compact / Corner Bathroom</option>
-                            <option value="laundry-combo">Laundry-Bathroom Combo</option>
-                        </select>
-                    </div>
-                    <div class="section-comments">
-                        <div class="comment-label">💬 Auditor Comments</div>
-                        <textarea class="comment-input" data-field="6-comments" placeholder="Layout concerns, space constraints, or special features..."></textarea>
-                    </div>
-                    <div class="photo-upload">
-                        <label class="upload-btn" for="upload-6">📷 Add Photos</label>
-                        <input type="file" id="upload-6" accept="image/*" multiple onchange="handlePhotoUpload(event,'6')">
-                        <p class="upload-hint">Optional · tap to select multiple photos</p>
-                        <div class="photo-preview" id="preview-6"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ━━━━━━ 7: ELECTRICAL, LIGHTING & HEATING ━━━━━━ -->
-        <div class="section" id="s7">
-            <div class="section-header" onclick="toggleSection('s7')">
-                <div class="section-header-left">
-                    <span class="section-number">7</span>
-                    <span class="section-title">Electrical, Lighting &amp; Heating</span>
-                    <span class="section-badge" id="badge-s7">Power · Geyser · Pipes</span>
-                </div>
-                <span class="expand-icon">▼</span>
-            </div>
-            <div class="section-content">
-                <div class="section-hint">⚡ Verify power sources, backup availability, geyser function, and pipe condition.</div>
-                <div class="section-body">
-                    <div class="sub-section-title">Power & Lighting</div>
-                    <div class="field-group"><label class="field-label">Power Supply Source</label><select class="field-input" data-field="7-power-source"><option value="">Select...</option><option value="grid">Main Grid</option><option value="grid-backup">Grid + Backup</option><option value="solar">Solar</option><option value="mixed">Mixed Sources</option></select></div>
-                    <div class="field-group"><label class="field-label">Switchboard Location</label><select class="field-input" data-field="7-switchboard"><option value="">Select...</option><option value="inside-safe">Inside — Safe position</option><option value="inside-risk">Inside — Near water ⚠️</option><option value="outside">Outside bathroom</option></select></div>
-                    <div class="field-grid">
-                        <div><span class="field-grid-label">No. of Light Points</span><input type="number" class="field-input" data-field="7-light-points" placeholder="e.g., 2" min="0"></div>
-                        <div><span class="field-grid-label">Ceiling Light Type</span><select class="field-input" data-field="7-ceiling-light"><option value="">Select...</option><option value="led">LED</option><option value="cfl">CFL</option><option value="tube">Tube Light</option><option value="incandescent">Incandescent</option><option value="none">None</option></select></div>
-                    </div>
-                    <div class="field-grid" style="margin-top:12px;">
-                        <div><span class="field-grid-label">Light Color</span><select class="field-input" data-field="7-light-color"><option value="">Select...</option><option value="warm-white">Warm White</option><option value="cool-white">Cool White</option><option value="daylight">Daylight</option><option value="yellow">Yellow</option></select></div>
-                        <div><span class="field-grid-label">Brightness</span><select class="field-input" data-field="7-light-lumen"><option value="">Select...</option><option value="bright">Bright (>800 lm)</option><option value="adequate">Adequate (400–800 lm)</option><option value="dim">Dim (<400 lm)</option></select></div>
-                    </div>
-
-                    <div class="sub-section-title">Backup</div>
-                    <div class="field-grid">
-                        <div><span class="field-grid-label">DG Backup</span><div class="radio-group"><label class="radio-label"><input type="radio" name="7-dg" value="yes" data-field="7-dg"> Yes</label><label class="radio-label"><input type="radio" name="7-dg" value="no" data-field="7-dg"> No</label></div></div>
-                        <div><span class="field-grid-label">Inverter Backup</span><div class="radio-group"><label class="radio-label"><input type="radio" name="7-inv" value="yes" data-field="7-inv"> Yes</label><label class="radio-label"><input type="radio" name="7-inv" value="no" data-field="7-inv"> No</label></div></div>
-                    </div>
-
-                    <div class="sub-section-title">Heating & Pipes</div>
-                    <div class="field-group"><label class="field-label">Geyser</label><select class="field-input" data-field="7-geyser"><option value="">Select...</option><option value="electric-working">Electric — Working</option><option value="electric-not-working">Electric — Not Working</option><option value="solar">Solar</option><option value="instant">Instant Heater</option><option value="none">None</option></select></div>
-                    <div class="field-grid">
-                        <div><span class="field-grid-label">Pipe Status</span><select class="field-input" data-field="7-pipe-status"><option value="">Select...</option><option value="good-insulated">Good — Insulated</option><option value="good-exposed">Good — Exposed</option><option value="leaking">Leaking</option><option value="damaged">Damaged</option><option value="rusted">Rusted</option></select></div>
-                        <div><span class="field-grid-label">Thermostat Status</span><select class="field-input" data-field="7-thermostat"><option value="">Select...</option><option value="available-working">Available & Working</option><option value="available-not-working">Not Working</option><option value="not-available">Not Available</option></select></div>
-                    </div>
-
-                    <div class="section-comments">
-                        <div class="comment-label">💬 Auditor Comments</div>
-                        <textarea class="comment-input" data-field="7-comments" placeholder="Electrical safety concerns, heating issues, pipe conditions..."></textarea>
-                    </div>
-                    <div class="photo-upload">
-                        <label class="upload-btn" for="upload-7">📷 Add Photos</label>
-                        <input type="file" id="upload-7" accept="image/*" multiple onchange="handlePhotoUpload(event,'7')">
-                        <p class="upload-hint">Optional · tap to select multiple photos</p>
-                        <div class="photo-preview" id="preview-7"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ━━━━━━ 8: ACCESS & EXIT ━━━━━━ -->
-        <div class="section" id="s8">
-            <div class="section-header" onclick="toggleSection('s8')">
-                <div class="section-header-left">
-                    <span class="section-number">8</span>
-                    <span class="section-title">Access &amp; Exit</span>
-                    <span class="section-badge" id="badge-s8">Door · Steps · Path</span>
-                </div>
-                <span class="expand-icon">▼</span>
-            </div>
-            <div class="section-content">
-                <div class="section-hint">🚪 Steps, floor transitions, and door type are critical for fall risk — especially for night-time bathroom visits.</div>
-                <div class="section-body">
-                    <div class="field-group"><label class="field-label">Step on Floor (Threshold)</label><select class="field-input" data-field="8-step"><option value="">Select...</option><option value="none">No Step — Level entry</option><option value="small">Small Step (&lt;2 inches)</option><option value="medium">Medium Step (2–4 inches)</option><option value="large">Large Step (&gt;4 inches)</option></select></div>
-                    <div class="field-grid">
-                        <div><span class="field-grid-label">Level Variation</span><select class="field-input" data-field="8-level-variation"><option value="">Select...</option><option value="none">None — Level floor</option><option value="slight">Slight variation</option><option value="significant">Significant</option><option value="tripping-hazard">Tripping hazard 🔴</option></select></div>
-                        <div><span class="field-grid-label">Floor Variation Inside</span><select class="field-input" data-field="8-floor-variation"><option value="">Select...</option><option value="level">Level throughout</option><option value="slight-slope">Slight slope (drainage)</option><option value="uneven">Uneven</option><option value="hazardous">Hazardous 🔴</option></select></div>
-                    </div>
-                    <div class="field-group" style="margin-top:12px;"><label class="field-label">Lighting Outside Bathroom Door</label><select class="field-input" data-field="8-outside-lighting"><option value="">Select...</option><option value="bright">Bright</option><option value="adequate">Adequate</option><option value="dim">Dim</option><option value="none">None / Dark ⚠️</option><option value="motion-sensor">Motion Sensor Light</option></select></div>
-                    <div class="field-grid">
-                        <div><span class="field-grid-label">Door Type</span><select class="field-input" data-field="8-door-type"><option value="">Select...</option><option value="hinged-outward">Hinged — Opens Outward</option><option value="hinged-inward">Hinged — Opens Inward</option><option value="sliding">Sliding</option><option value="folding">Folding</option></select></div>
-                        <div><span class="field-grid-label">Door Width</span><select class="field-input" data-field="8-door-width"><option value="">Select...</option><option value="wide">Wide (&gt;32 inches)</option><option value="standard">Standard (30–32 in)</option><option value="narrow">Narrow (&lt;30 inches)</option></select></div>
-                    </div>
-
-                    <div class="section-comments">
-                        <div class="comment-label">💬 Auditor Comments</div>
-                        <textarea class="comment-input" data-field="8-comments" placeholder="Tripping hazards, poor lighting on path, door concerns..."></textarea>
-                    </div>
-                    <div class="photo-upload">
-                        <label class="upload-btn" for="upload-8">📷 Add Photos</label>
-                        <input type="file" id="upload-8" accept="image/*" multiple onchange="handlePhotoUpload(event,'8')">
-                        <p class="upload-hint">Optional · tap to select multiple photos</p>
-                        <div class="photo-preview" id="preview-8"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div><!-- /content -->
-
-    <!-- ══════════ ACTIONS ══════════ -->
-    <div class="actions">
-        <button class="btn btn-secondary" onclick="saveDraft()">💾 Save Draft</button>
-        <button class="btn btn-primary" onclick="submitForm()">Submit Audit →</button>
-    </div>
-
-</div><!-- /container -->
-
-<div class="toast" id="toast"></div>
-
-<script>
-    // ─── State ───────────────────────────────────────────
-    const photoData = {};
-    let userCount = 0;
-    const expandedSections = new Set();
-
-    // ─── Init ────────────────────────────────────────────
-    window.onload = function () {
-        document.getElementById('meta-date').valueAsDate = new Date();
-        addUser(); // Start with one user
-        const draft = localStorage.getItem('bathroomAuditDraft');
-        if (draft) {
-            try { restoreDraft(JSON.parse(draft)); showToast('📋 Draft restored'); } catch(e) {}
-        }
-    };
-
-    // ─── Section toggle ──────────────────────────────────
-    function toggleSection(id) {
-        const el = document.getElementById(id);
-        if (!el) return;
-        el.classList.toggle('expanded');
-        expandedSections[el.classList.contains('expanded') ? 'add' : 'delete'](id);
-        updateProgress();
-    }
-
-    function updateProgress() {
-        const done = expandedSections.size;
-        document.getElementById('progressFill').style.width = Math.round((done / 8) * 100) + '%';
-        document.getElementById('progressLabel').textContent = done + ' / 8 sections opened';
-    }
-
-    // ─── User profiles ───────────────────────────────────
-    function addUser() {
-        userCount++;
-        const uid = userCount;
-        const container = document.getElementById('users-container');
-        const card = document.createElement('div');
-        card.className = 'user-card';
-        card.id = 'user-card-' + uid;
-        card.innerHTML = `
-        <div class="user-card-header">
-            <div class="user-card-title">
-                <div class="user-avatar">${uid}</div>
-                User ${uid}
-            </div>
-            ${uid > 1 ? `<button class="remove-user-btn" onclick="removeUser(${uid})">Remove</button>` : ''}
-        </div>
-        <div class="user-card-body">
-            <div class="field-grid" style="margin-bottom:14px;">
-                <div><span class="field-grid-label">Age</span><input type="number" class="field-input" data-field="u${uid}-age" placeholder="e.g., 65" min="0" max="120"></div>
-                <div><span class="field-grid-label">Weight (kg)</span><input type="number" class="field-input" data-field="u${uid}-weight" placeholder="e.g., 70"></div>
-            </div>
-            <div class="field-grid" style="margin-bottom:14px;">
-                <div><span class="field-grid-label">Height (cm)</span><input type="number" class="field-input" data-field="u${uid}-height" placeholder="e.g., 165"></div>
-                <div><span class="field-grid-label">Relationship</span><select class="field-input" data-field="u${uid}-relation"><option value="">Select...</option><option value="self">Self</option><option value="spouse">Spouse / Partner</option><option value="parent">Parent</option><option value="child">Child</option><option value="other">Other</option></select></div>
-            </div>
-            <div class="field-group">
-                <label class="field-label">Known Conditions</label>
-                <div class="check-group">
-                    <label class="check-label"><input type="checkbox" data-field="u${uid}-cond-bp"> Blood Pressure</label>
-                    <label class="check-label"><input type="checkbox" data-field="u${uid}-cond-diabetes"> Diabetes</label>
-                    <label class="check-label"><input type="checkbox" data-field="u${uid}-cond-heart"> Heart</label>
-                    <label class="check-label"><input type="checkbox" data-field="u${uid}-cond-mobility"> Mobility Issues</label>
-                </div>
-            </div>
-            <div class="field-group">
-                <label class="field-label">Other Conditions / Medications</label>
-                <textarea class="field-input" data-field="u${uid}-conditions-other" placeholder="Other conditions or medications..." style="min-height:56px;"></textarea>
-            </div>
-            <div class="field-grid" style="margin-bottom:14px;">
-                <div><span class="field-grid-label">Wake Time</span><select class="field-input" data-field="u${uid}-wake-time"><option value="">Select...</option><option value="before-5am">Before 5 AM</option><option value="5am-6am">5–6 AM</option><option value="6am-7am">6–7 AM</option><option value="7am-8am">7–8 AM</option><option value="after-8am">After 8 AM</option></select></div>
-                <div><span class="field-grid-label">Sleep Time</span><select class="field-input" data-field="u${uid}-sleep-time"><option value="">Select...</option><option value="before-9pm">Before 9 PM</option><option value="9pm-10pm">9–10 PM</option><option value="10pm-11pm">10–11 PM</option><option value="11pm-12am">11 PM–12 AM</option><option value="after-12am">After 12 AM</option></select></div>
-            </div>
-            <div class="field-grid" style="margin-bottom:14px;">
-                <div><span class="field-grid-label">Dinner Time</span><select class="field-input" data-field="u${uid}-dinner"><option value="">Select...</option><option value="before-7pm">Before 7 PM</option><option value="7pm-8pm">7–8 PM</option><option value="8pm-9pm">8–9 PM</option><option value="9pm-10pm">9–10 PM</option><option value="after-10pm">After 10 PM</option></select></div>
-                <div><span class="field-grid-label">Water Before Bed</span><select class="field-input" data-field="u${uid}-water-habit"><option value="">Select...</option><option value="none">None</option><option value="sips">Few sips</option><option value="one-glass">One glass</option><option value="two-plus">Two+ glasses</option></select></div>
-            </div>
-            <div class="field-group">
-                <label class="field-label">Bathroom Path Access</label>
-                <select class="field-input" data-field="u${uid}-path-access"><option value="">Select...</option><option value="direct">Direct from bedroom</option><option value="hallway">Through hallway</option><option value="stairs">Includes stairs</option><option value="difficult">Difficult access</option></select>
-            </div>
-            <div class="field-group">
-                <label class="field-label">Sleep Habits / Notes</label>
-                <textarea class="field-input" data-field="u${uid}-sleep-notes" placeholder="e.g., Light sleeper, wakes frequently, uses walking aid..." style="min-height:56px;"></textarea>
-            </div>
-        </div>`;
-        container.appendChild(card);
-    }
-
-    function removeUser(uid) {
-        const card = document.getElementById('user-card-' + uid);
-        if (card) card.remove();
-    }
-
-    // ─── Photos ──────────────────────────────────────────
-    function handlePhotoUpload(event, sid) {
-        if (!photoData[sid]) photoData[sid] = [];
-        for (let file of event.target.files) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const idx = photoData[sid].push({ name: file.name, data: e.target.result }) - 1;
-                const preview = document.getElementById('preview-' + sid);
-                const item = document.createElement('div');
-                item.className = 'photo-item';
-                item.id = `photo-${sid}-${idx}`;
-                item.innerHTML = `<img src="${e.target.result}" alt="${file.name}"><button class="photo-remove" onclick="removePhoto('${sid}',${idx})">×</button>`;
-                preview.appendChild(item);
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-
-    function removePhoto(sid, idx) {
-        if (photoData[sid]) photoData[sid][idx] = null;
-        const item = document.getElementById(`photo-${sid}-${idx}`);
-        if (item) item.remove();
-    }
-
-    // ─── Collect ─────────────────────────────────────────
-    function collectFormData() {
-        const data = {
-            meta: {
-                auditor: document.getElementById('meta-auditor').value,
-                date: document.getElementById('meta-date').value,
-                location: document.getElementById('meta-location').value,
-            },
-            photos: photoData,
-            timestamp: new Date().toISOString()
-        };
-        document.querySelectorAll('[data-field]').forEach(el => {
-            const f = el.getAttribute('data-field');
-            if (!f) return;
-            if (el.type === 'checkbox') data[f] = el.checked;
-            else if (el.type === 'radio') { if (el.checked) data[f] = el.value; }
-            else data[f] = el.value;
-        });
-        return data;
-    }
-
-    // ─── Save / Submit ───────────────────────────────────
-    function saveDraft() {
-        localStorage.setItem('bathroomAuditDraft', JSON.stringify(collectFormData()));
-        showToast('✓ Draft saved');
-    }
-
-    function submitForm() {
-        const data = collectFormData();
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `bathroom-audit-${Date.now()}.json`;
-        a.click();
-        showToast('✓ Audit submitted & downloaded');
-        localStorage.removeItem('bathroomAuditDraft');
-    }
-
-    // ─── Restore draft ───────────────────────────────────
-    function restoreDraft(data) {
-        if (data.meta) {
-            if (data.meta.auditor) document.getElementById('meta-auditor').value = data.meta.auditor;
-            if (data.meta.date) document.getElementById('meta-date').value = data.meta.date;
-            if (data.meta.location) document.getElementById('meta-location').value = data.meta.location;
-        }
-        for (const [field, value] of Object.entries(data)) {
-            const el = document.querySelector(`[data-field="${field}"]`);
-            if (!el) continue;
-            if (el.type === 'checkbox') el.checked = value;
-            else if (el.type === 'radio') el.checked = (el.value === value);
-            else el.value = value;
-        }
-    }
-
-    // ─── Toast ───────────────────────────────────────────
-    function showToast(msg) {
-        const t = document.getElementById('toast');
-        t.textContent = msg;
-        t.classList.add('show');
-        setTimeout(() => t.classList.remove('show'), 3000);
-    }
-</script>
-</body>
-</html>
+                    <div class="field-group"><label class="field-label">Bucket</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input avail-trigger" data-field="2-bucket-avail" onchange="toggleFollowUp(this)"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div class="follow-up" id="fu-2-bucket-avail"><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-bucket-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
+                    <div class="field-group"><label class="field-label">Round Tub</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input avail-trigger" data-field="2-tub-avail" onchange="toggleFollowUp(this)"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div class="follow-up" id="fu-2-tub-avail"><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-tub-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
+                    <div class="field-group"><label class="field-label">Plastic Stool</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input avail-trigger" data-field="2-stool-avail" onchange="toggleFollowUp(this)"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div class="follow-up" id="fu-2-stool-avail"><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-stool-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
+                    <div class="field-group"><label class="field-label">Racks</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input avail-trigger" data-field="2-racks-avail" onchange="toggleFollowUp(this)"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div class="follow-up" id="fu-2-racks-avail"><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-racks-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
+                    <div class="field-group"><label class="field-label">Wiper</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input avail-trigger" data-field="2-wiper-avail" onchange="toggleFollowUp(this)"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div class="follow-up" id="fu-2-wiper-avail"><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-wiper-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
+                    <div class="field-group"><label class="field-label">Wiper Wall Stand</label><div class="field-grid"><div><span class="field-grid-label">Available?</span><select class="field-input avail-trigger" data-field="2-wiperstand-avail" onchange="toggleFollowUp(this)"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div><div class="follow-up" id="fu-2-wiperstand-avail"><span class="field-grid-label">Condition</span><select class="field-input" data-field="2-wiperstand-cond"><option value="">Select...</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div></div></div>
+                    <div class="field-group"><label class="field-label">Towel Hanger</label><div class="field-grid"><div><span class="field
